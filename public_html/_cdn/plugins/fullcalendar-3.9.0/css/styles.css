@@ -1,0 +1,130 @@
+.panel_header.fc-event{border-top: 0px !important;  border-bottom: 0px !important;}
+.panel_header.success{border-top: 0px !important;  border-bottom: 0px !important;}
+.panel_header.alert{border-top: 0px !important;  border-bottom: 0px !important;}
+.panel_header.info{border-top: 0px !important;  border-bottom: 0px !important;}
+.panel_header.warning{border-top: 0px !important;  border-bottom: 0px !important;}
+.panel_header > h2 {
+    cursor: move;
+    font-size: 1.3em!important;
+}
+.panel_header > span {
+    margin-top: 8px;
+}
+
+.siga_modal{
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 102;
+}
+
+.siga_modal p{
+    font-size: 1.2em;
+    font-weight: 300;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.siga_modal form{
+    display: block;
+    width: 600px;
+    max-width: 90%;
+    margin: 7% auto;
+    padding: 30px 20px;
+    background: #fff;
+    position: relative;
+}
+
+.siga_modal form .inputs{
+    max-height: 380px;
+    overflow: auto;
+}
+
+.siga_modal form .inputs .trigger{
+    margin: 0 0 10px 0;
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    text-transform: uppercase;
+}
+
+.siga_modal_close{
+    position: absolute;
+    right: -15px;
+    top: -15px;
+    padding: 6px 12px;
+    font-weight: bold;
+    border: 3px solid #fff;
+    background: #b26f6f;
+    color: #fff;
+    width: auto;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.siga_modal_close:hover{
+    background: #cf7171;
+}
+
+.siga_modal form label{
+    display: block;
+    width: 100%;
+    margin-bottom: 3px;
+    padding: 10px;
+    background: #eee;
+}
+
+.siga_modal .form_load{
+    display: none;
+    vertical-align: middle;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.siga_modal form span,
+.siga_modal form input{
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+}
+
+.siga_modal form span{
+    font-size: 0.875em;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.siga_modal form span b{
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9em;
+}
+
+.siga_modal form .size{
+    text-align: right;
+}
+
+.siga_modal form .cart{
+    text-align: left;
+}
+
+.siga_modal form input{
+    width: 100%;
+
+    text-align: left;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.siga_modal form .btn{
+    display: inline-block;
+    vertical-align: middle;
+    padding: 10px 20px;
+    margin-top: 15px;
+    float: right;
+    margin-right: 10px;
+}
