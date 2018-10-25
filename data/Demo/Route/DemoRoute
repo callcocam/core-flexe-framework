@@ -1,0 +1,62 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Route;
+
+use Flexe\Route\AbstractRoute;
+use S_App\Admin\Middleware\ApiMiddleware;
+use S_App\Admin\Middleware\AuthMiddleware;
+use S_App\S_Parent\Controller;
+use S_App\S_Parent\Api;
+
+class S_DemoRoute extends AbstractRoute
+{
+
+    public function create()
+        {
+            $this->app->group('/S_route', function () {
+
+                $this->group('/S_controller', function () {
+
+                    $this->get("", sprintf("%s:listar", Controller\S_DemoController::class))->setName('S_route.S_controller');
+
+                    $this->get("/create", sprintf("%s:create", Controller\S_DemoController::class))->setName('S_route.S_controller.create');
+
+                    $this->post("/save", sprintf("%s:save", Controller\S_DemoController::class))->setName('S_route.S_controller.save');
+
+                    $this->get("/view/{id}", sprintf("%s:view", Controller\S_DemoController::class))->setName('S_route.S_controller.view');
+
+                    $this->get("/editar/{id}", sprintf("%s:editar", Controller\S_DemoController::class))->setName('S_route.S_controller.editar');
+
+                    $this->map(['GET','POST'],"/excluir/{id}", sprintf("%s:excluir", Controller\S_DemoController::class))->setName('S_route.S_controller.excluir');
+
+                });
+
+            })->add(new AuthMiddleware($this->app->getContainer()));
+
+            $this->app->group('/api', function () {
+
+                $this->group('/S_controller', function () {
+
+                    $this->get("", sprintf("%s:listar", Api\Controller\S_DemoController::class))->setName('S_route.api.S_controller');
+
+                    $this->get("/create", sprintf("%s:create", Api\Controller\S_DemoController::class))->setName('S_route.api.S_controller.create');
+
+                    $this->post("/save", sprintf("%s:save", Api\Controller\S_DemoController::class))->setName('S_route.api.S_controller.save');
+
+                    $this->get("/view/{id}", sprintf("%s:view", Api\Controller\S_DemoController::class))->setName('S_route.api.S_controller.view');
+
+                    $this->get("/editar/{id}", sprintf("%s:editar", Api\Controller\S_DemoController::class))->setName('S_route.api.S_controller.editar');
+
+                    $this->map(['GET','POST'],"/excluir/{id}", sprintf("%s:excluir", Api\Controller\S_DemoController::class))->setName('S_route.api.S_controller.excluir');
+
+                });
+
+            })->add(new ApiMiddleware($this->app->getContainer()));
+
+        }
+    }

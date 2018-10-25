@@ -1,0 +1,64 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Tables;
+
+
+use Flexe\Table\AbstractTable;
+
+class S_DemoTable extends AbstractTable
+{
+
+    protected $defaultOptions = [
+        'title'=>'Lista De S_Name',
+        'showActions'=>[
+            'label'=>'Adcionar Novo',
+            'route'=>'S_table.create',
+        ],
+    ];
+
+    /**
+     * @var array Definition of headers
+     */
+    protected $headers = [
+        'S_tables_id' => ['name' => 'id','title' => 'Código', 'width' => '50'],
+        'S_tables_name' => ['name' => 'name','title' => 'Nome\Descrição','alias'=>'S_tables'],
+        'S_tables_status' => ['name' => 'status','title' => 'Status', 'width' => '100'],
+        'S_tables_created_at' => ['name' => 'created_at','title' => 'Cadastrado Em'],
+        'S_tables_updated_at' => ['name' => 'updated_at','title' => 'Atualizado Em', 'width' => '100'],
+        'editar' => ['title' => 'Editar Registro' ],
+        'excluir' => ['title' => 'Excluir Registro'],
+    ];
+
+    protected function init()
+    {
+        $this->getHeader('S_tables_created_at')->getCell()->addDecorator('date', [
+            'time'=>true
+        ]);
+
+        $this->getHeader('S_tables_updated_at')->getCell()->addDecorator('date', [
+            'time'=>true
+        ]);
+
+        $this->getHeader('editar')->getCell()->addDecorator('edit',[
+            'route'=>'S_table.editar',
+            'id'=>'S_tables_id'
+        ]);
+
+        $this->getHeader('excluir')->getCell()->addDecorator('delete',[
+            'route'=>'S_table.excluir',
+            'id'=>'S_tables_id'
+        ]);
+
+        //$this->getHeader('status')->getCell()->addDecorator('Status');
+    }
+
+    protected function initFilter($query)
+    {
+        // TODO: Implement initFilter() method.
+    }
+}

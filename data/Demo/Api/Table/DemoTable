@@ -1,0 +1,43 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Api\Table;
+
+
+use Flexe\Table\AbstractTable;
+
+class S_DemoTable extends AbstractTable
+{
+    protected $defaultOptions = [
+           'title'=>'Lista De S_Name',
+           'showActions'=>[
+               'label'=>'Adcionar Novo',
+               'route'=>'S_route.S_table.create',
+           ],
+       ];
+
+       /**
+        * @var array Definition of headers
+        */
+       protected $headers = [
+           'S_tables_id' => ['name' => 'id','title' => 'Código', 'width' => '50'],
+           'S_tables_name' => ['name' => 'name','title' => 'Nome\Descrição','alias'=>'S_tables'],
+           'S_tables_status' => ['name' => 'status','title' => 'Status', 'width' => '100'],
+           'S_tables_created_at' => ['name' => 'created_at','title' => 'Cadastrado Em'],
+           'S_tables_updated_at' => ['name' => 'updated_at','title' => 'Atualizado Em', 'width' => '100']
+       ];
+
+    public function init()
+    {
+        
+    }
+
+    public function initFilter($query)
+    {
+        // TODO: Implement initFilter() method.
+    }
+}

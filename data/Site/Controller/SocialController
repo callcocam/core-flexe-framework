@@ -1,0 +1,37 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+
+namespace S_App\S_Parent\Controller;
+
+use Slim\Container;
+
+
+class SocialController extends AbstractController
+{
+
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+
+        $this->form = $this->S_ParentSiteSocialForm;
+
+        $this->model = $this->AdminSocialModel;
+
+        $this->route = 'S_route';
+
+        $this->controller = 'social';
+
+        $this->action = 'index';
+
+        $this->load();
+
+        $this->Render->setLayout(sprintf('layout/%s', __APP_THEME__));
+    }
+
+
+}

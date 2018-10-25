@@ -1,0 +1,11 @@
+<?=$this->alert()?>
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Deseja Relamente Excluir</h1>
+        <form action="<?=$action?>" method="post">
+            <input type="hidden" name="id" value="<?=$args['id']?>">
+            <button class="btn btn-primary my-2">Sim</button>
+            <a href="<?=$callback?>" class="btn btn-secondary my-2">Não</a>
+        </form>
+    </div>
+</section>

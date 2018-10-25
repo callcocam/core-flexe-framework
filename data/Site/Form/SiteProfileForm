@@ -1,0 +1,131 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+namespace S_App\S_Parent\Form;
+
+
+use S_App\S_Parent\Filter\SiteProfileFilter;
+use Flexe\Form\AbstractForm;
+
+class SiteProfileForm extends AbstractForm
+{
+
+    public function __construct(string $name = "AjaxForm", $data = [])
+    {
+        parent::__construct($name, $data);
+
+        $this->setAttributes([
+            'class'=>'text-left form-validate',
+            'id'=>$name,
+            'name'=>$name,
+            'action'=>'S_route.auth.profile',
+            'method'=>'post',
+            "enctype"=>"multipart/form-data",
+        ]);
+
+        $this->setValidation(new SiteProfileFilter());
+
+        $this->add($this->addHidden('cover'));
+
+        $this->add($this->setLabelCover('Selecione Uma Imagem')->addCover());
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Digite Seu Nome')->addText('name'));
+
+        $this->add($this->setAttributesEmail([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->addEmail('email'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Telefone')->addText('phone'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Google')->addText('google'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Facebook')->addText('facebook'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Twitter')->addText('twitter'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Cpf/Cnpj')->addText('document'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('IE')->addText('ie'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Rg')->addText('rg'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Endereço')->addText('street'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Complemento')->addText('complements'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Nº')->addText('number'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Bairro')->addText('district'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Cep')->addText('zip'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Cidade')->addText('city'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Estado')->addText('state'));
+
+
+        $this->add($this->setAttributesTextArea([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelTextArea('Detalhes')->addTextArea('description'));
+
+        $this->add($this->setAttributesPassword([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->addPassword());
+
+        $this->add($this->addHidden('updated_at'));
+
+        $this->add($this->addSubmit());
+    }
+
+}

@@ -1,0 +1,94 @@
+<?php
+/**
+* Created by Claudio Campos.
+* User: callcocam@gmail.com
+* https://www.sigasmart.com.br
+*/
+
+namespace S_App\S_Parent\Controller;
+
+
+use Flexe\Http\Controller;
+use Slim\Container;
+
+use Slim\Http\Request;
+use Slim\Http\Response;
+
+class S_DemoController extends Controller
+{
+
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+
+        $this->route = 'S_controller';
+
+       $this->controller = 'S_controller';
+
+       $this->action = 'index';
+
+       $this->load();
+
+       $this->Render->setLayout(sprintf('layout/%s', __APP_THEME__));
+    }
+
+
+
+
+    S_actions
+
+
+    public function terms(Request $request, Response $response, $args = []){
+        $this->Render->setTemplate("S_controller/terms");
+        $this->Render->setVariable('args', $args);
+        return $this->Render->render();
+    }
+
+    public function policy(Request $request, Response $response, $args = []){
+        $this->Render->setTemplate("S_controller/policy");
+        $this->Render->setVariable('args', $args);
+        return $this->Render->render();
+    }
+
+
+public function contacts(Request $request, Response $response, $args = []){
+
+        $this->Render->setTemplate("S_controller/contact");
+
+               $this->form = $this->S_ParentSiteContactsForm;
+
+               if ($this->Post->isPost()):
+
+                   $this->form->setData($this->data);
+
+                   if($this->form->isValid()):
+
+                       $this->data['site'] = $this->company['name'];
+
+                       $this->mailer->sendMessage('/emails/contact', $this->data, function($message) {
+
+                           $message->setTo(config('mail.contact','suporte@phpflexe.com.br'),$this->data['name']);
+
+                           $message->setSubject($this->data['subject']);
+
+                       });
+                   else:
+                       $erros =$this->form->getErrors();
+
+                       if($erros):
+                           foreach ($erros as $erro):
+
+                               $this->Notify->danger($erro);
+
+                           endforeach;
+                       endif;
+                   endif;
+
+               endif;
+
+               $this->Render->setVariable('form', $this->form);
+
+               return parent::index($request,$response,$args);
+    }
+
+}

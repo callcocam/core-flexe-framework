@@ -1,0 +1,77 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Form;
+
+
+use S_App\S_Parent\Filter\SiteAddresFilter;
+use Flexe\Form\AbstractForm;
+
+class SiteAddresForm extends AbstractForm
+{
+
+    public function __construct($name="AjaxForm", $data = [])
+    {
+        parent::__construct($name, $data);
+
+        $this->setAttributes([
+            "name"=>$name,
+            "id"=>$name,
+            "role"=>"form",
+            "method"=>"post",
+            "enctype"=>"multipart/form-data",
+            "action"=>"S_route.address.save"
+        ]);
+
+        $this->setValidation(new SiteAddresFilter());
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Nome\Descrição')->addText('name'));
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Endereço')->addText('street'));
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Bairro')->addText('district'));
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('N°')->addText('number'));
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Complemento')->addText('complements'));
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Cidade')->addText('city'));
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Estado')->addText('state'));
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Pais')->addText('country'));
+
+        $this->add($this->addHidden("parent"));
+
+        $this->add($this->addHidden("assets"));
+
+        $this->add($this->setValueHidden('1')->addHidden("status"));
+
+        $this->add($this->setValueHidden(date("d/m/Y H:i:s"))->addHidden("updated_at"));
+
+        $this->add($this->addSubmit());
+
+    }
+
+}

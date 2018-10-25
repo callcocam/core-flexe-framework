@@ -1,0 +1,37 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Form;
+
+
+use Flexe\Form\Elements\Submit;
+use Flexe\Form\Elements\Text;
+use Flexe\Form\Form;
+
+class ForgotForm extends Form
+{
+
+    public function __construct(string $name = "AjaxForm", array $data = [])
+    {
+        parent::__construct($name, $data);
+
+        $this->setAttributes([
+            'class'=>'text-left form-validate',
+            'action'=>'auth.forgot',
+            'method'=>'post'
+        ]);
+
+        $this->add($this->setAttributesEmail([
+                         'class'=>'form-control',
+                         'position'=>'preppend'
+                     ])->addEmail('email'));
+
+       $this->add($this->setAttributesSubmit([
+                  "content"=>"Recuperar Senha"
+              ])->addSubmit());
+    }
+}

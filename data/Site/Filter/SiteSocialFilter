@@ -1,0 +1,17 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: caltj
+ * Date: 03/10/2018
+ * Time: 12:58
+ */
+
+namespace S_App\S_Parent\Filter;
+
+
+use S_App\Admin\Filter\SocialFilter;
+
+class SiteSocialFilter extends SocialFilter
+{
+
+}

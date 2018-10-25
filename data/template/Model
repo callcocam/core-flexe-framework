@@ -1,0 +1,24 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Model;
+
+
+use Flexe\Model\AbstractModel;
+
+class S_DemoModel extends AbstractModel
+{
+    protected $table = 'S_tables';
+
+
+
+    protected $fillable = [
+        'S_fillable'
+    ];
+
+
+}

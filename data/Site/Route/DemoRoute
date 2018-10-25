@@ -1,0 +1,105 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Route;
+
+use Flexe\Route\AbstractRoute;
+use S_App\S_Parent\Controller;
+use S_App\S_Parent\Middleware\AuthFrontMiddleware;
+use S_App\S_Parent\Middleware\QuestFrontMiddleware;
+use S_App\S_Parent\Controller\AuthController;
+
+class S_DemoRoute extends AbstractRoute
+{
+
+    public function create()
+    {
+
+        $this->app->get("[/]", sprintf("%s:index", Controller\S_ParentController::class))->setName('S_route');
+
+        $this->app->map(['POST','GET'],"/contate-nos", sprintf("%s:contacts", Controller\S_ParentController::class))->setName("S_route.contacts");
+
+        $this->app->get("/about", sprintf("%s:about", Controller\S_ParentController::class))->setName("S_route.about");
+
+        $this->app->get("/politica-de-privacidade", sprintf("%s:policy", Controller\S_ParentController::class))->setName("S_route.about");
+
+        $this->app->get("/termos-de-uso", sprintf("%s:terms", Controller\S_ParentController::class))->setName("S_route.terms");
+
+        $this->app->group("/conta", function (){
+
+            $this->map(['POST','GET'],"", sprintf("%s:login", AuthController::class))->setName('S_route.auth.login');
+
+            $this->map(['POST','GET'],"/cadastrar-se", sprintf("%s:register", AuthController::class))->setName('S_route.auth.register');
+
+            $this->map(['POST','GET'],"/recuperar-senha", sprintf("%s:forgot", AuthController::class))->setName('S_route.auth.forgot');
+
+        })->add(new QuestFrontMiddleware($this->app->getContainer()));
+
+        $this->app->group("/conta", function (){
+
+            $this->get("/sair", sprintf("%s:logout", AuthController::class))->setName('S_route.auth.logout');
+
+            $this->map(['POST','GET'],"/meus-dados", sprintf("%s:profile", AuthController::class))->setName('S_route.auth.profile');
+
+            $this->group("/endereco", function () {
+
+                $this->get("", sprintf("%s:index", Controller\AddressController::class))->setName('S_route.address');
+
+                $this->map(['POST', 'GET'], "/create", sprintf("%s:create", Controller\AddressController::class))->setName('S_route.address.create');
+
+                $this->map(['POST', 'GET'], "/editar/{id}", sprintf("%s:editar", Controller\AddressController::class))->setName('S_route.address.editar');
+
+                $this->map(['POST', 'GET'], "/excluir/{id}", sprintf("%s:excluir", Controller\AddressController::class))->setName('S_route.address.excluir');
+
+                $this->map(['POST', 'GET'], "/save", sprintf("%s:save", Controller\AddressController::class))->setName('S_route.address.save');
+            });
+
+            $this->group("/documentos", function () {
+
+                $this->get("", sprintf("%s:index", Controller\DocumentController::class))->setName('S_route.document');
+
+                $this->map(['POST', 'GET'], "/create", sprintf("%s:create", Controller\DocumentController::class))->setName('S_route.document.create');
+
+                $this->map(['POST', 'GET'], "/editar/{id}", sprintf("%s:editar", Controller\DocumentController::class))->setName('S_route.document.editar');
+
+                $this->map(['POST', 'GET'], "/excluir/{id}", sprintf("%s:excluir", Controller\DocumentController::class))->setName('S_route.document.excluir');
+
+                $this->map(['POST', 'GET'], "/save", sprintf("%s:save", Controller\DocumentController::class))->setName('S_route.document.save');
+            });
+
+            $this->group("/contato", function () {
+
+                $this->get("", sprintf("%s:index", Controller\ContactController::class))->setName('S_route.contact');
+
+                $this->map(['POST', 'GET'], "/create", sprintf("%s:create", Controller\ContactController::class))->setName('S_route.contact.create');
+
+                $this->map(['POST', 'GET'], "/editar/{id}", sprintf("%s:editar", Controller\ContactController::class))->setName('S_route.contact.editar');
+
+                $this->map(['POST', 'GET'], "/excluir/{id}", sprintf("%s:excluir", Controller\ContactController::class))->setName('S_route.contact.excluir');
+
+                $this->map(['POST', 'GET'], "/save", sprintf("%s:save", Controller\ContactController::class))->setName('S_route.contact.save');
+
+            });
+
+            $this->group("/social", function () {
+
+                $this->get("", sprintf("%s:index", Controller\SocialController::class))->setName('S_route.social');
+
+                $this->map(['POST', 'GET'], "/create", sprintf("%s:create", Controller\SocialController::class))->setName('S_route.social.create');
+
+                $this->map(['POST', 'GET'], "/editar/{id}", sprintf("%s:editar", Controller\SocialController::class))->setName('S_route.social.editar');
+
+                $this->map(['POST', 'GET'], "/excluir/{id}", sprintf("%s:excluir", Controller\SocialController::class))->setName('S_route.social.excluir');
+
+                $this->post("/save", sprintf("%s:save", Controller\SocialController::class))->setName('S_route.social.save');
+
+            });
+
+        })->add(new AuthFrontMiddleware($this->app->getContainer()));
+
+    }
+}

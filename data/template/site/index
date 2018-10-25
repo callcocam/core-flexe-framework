@@ -1,0 +1,3 @@
+  <h1 class="mt-5">Bem vindo S_controller</h1>
+      <p class="lead"><?=$company['description']?>.</p>
+      <p>Use <a href="/">the sticky footer with a fixed navbar</a> if need be, too.</p>

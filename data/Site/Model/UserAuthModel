@@ -1,0 +1,46 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Model;
+
+
+use Flexe\Db\Init;
+
+class UserAuthModel extends Init
+{
+
+    protected $table = 'users';
+
+    protected $fillable = [
+        'name',
+        'company_id' ,
+        'document',
+        'ie',
+        'rg',
+        'phone',
+        'email',
+        'google',
+        'facebook',
+        'twitter',
+        'street',
+        'complements',
+        'number',
+        'district',
+        'zip',
+        'city',
+        'state',
+        'cover',
+        'alias',
+        'role_id',
+        'password',
+        'description',
+        'status',
+        'updated_at',
+    ];
+
+
+}

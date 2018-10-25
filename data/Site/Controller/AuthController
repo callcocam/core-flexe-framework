@@ -1,0 +1,239 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+
+namespace S_App\S_Parent\Controller;
+
+
+use Flexe\Db\Extras\Utilities;
+use Flexe\Events\AuthEvent;
+use Flexe\Handlers\AuthHandler;
+use Flexe\Http\Controller;
+use Slim\Container;
+
+use Slim\Http\Request;
+use Slim\Http\Response;
+
+class AuthController extends Controller
+{
+
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+
+        $this->model = $this->S_ParentSiteAuthModel;
+
+        $this->route = 'S_route';
+
+        $this->controller = 'S_controller';
+
+        $this->action = 'index';
+
+        $this->load();
+
+        $this->Render->setLayout(sprintf('layout/%s', __APP_THEME__));
+    }
+
+    public function login(Request $request, Response $response, $args = [])
+    {
+
+        $this->Render->setTemplate('auth/index');
+
+        if ($this->Post->isPost()):
+
+            $data= $this->Post->getParams();
+
+            if($this->AdminAuthModel->login($this->company['id'],$data['email'],$data['password']) === 5):
+
+                $this->AdminAuthModel->setStorage();
+
+                return $response->withRedirect($this->router->pathFor('S_route.auth.profile'));
+
+            endif;
+
+        endif;
+
+        $this->Render->setVariable('form', $this->S_ParentSiteAuthForm);
+
+        $this->Render->setVariable('args', $args);
+
+        return parent::index($request, $response, $args);
+    }
+
+    public function register(Request $request, Response $response, $args = [])
+    {
+
+                $this->form = $this->S_ParentSiteRegisterForm;
+
+                $this->Render->setTemplate('auth/register');
+
+                if ($this->Post->isPost()):
+
+                    $this->form->setData($this->data);
+
+                    if($this->form->isValid()):
+
+                        $roles = $this->model->from('roles')->limit(1)->orderBy("id ASC")->find();
+
+                        $this->data['status'] = 1;
+
+                        $this->data['role_id'] = $roles['id'];
+
+                        $Model = $this->model->insert('users', $this->model->exchangeArray($this->data));
+
+                        $Result = $Model->execute();
+
+                        if($Result):
+
+                            $this->Notify->success('Seus Dados Foram Atualizado Com Sucesso');
+
+                            $event = new AuthEvent($this->model->from('users', $Result)->find());
+
+                            $event->attach(new AuthHandler());
+
+                            $event->dispatch();
+
+                            return $response->withRedirect($this->router->pathFor('S_route.auth.profile'));
+
+                        else:
+
+                            $this->Notify->danger('Não foi possivel finalizar a operação');
+
+                        endif;
+
+                    else:
+                        $erros =$this->form->getErrors();
+
+                        if($erros):
+                            foreach ($erros as $erro):
+
+                                $this->Notify->danger($erro);
+
+                            endforeach;
+                        endif;
+                    endif;
+
+
+
+                endif;
+
+                $this->Render->setVariable('form', $this->form);
+
+                $this->Render->setVariable('args', $args);
+
+                return parent::index($request, $response, $args);
+    }
+
+    public function forgot(Request $request, Response $response, $args = [])
+    {
+
+              $this->form = $this->S_ParentSiteForgotForm;
+
+              $this->Render->setTemplate('auth/forgot');
+
+               if ($this->Post->isPost()):
+
+                   $user = $this->model->from('users')->where([
+                       'email'=>$this->data['email'],
+                       'company_id'=>$this->company['id']
+                   ])->find();
+
+                   if($user):
+                       $datePassword = base64_encode(date("YmdHis"));
+                       $Model = $this->model->update('users',[
+                           'password'=>Utilities::generate_hash(sprintf("%s-%s", $datePassword,$user['email']))
+                       ],$user['id']);
+
+                       $Result = $Model->execute();
+                       if($Result):
+                           //dd($datePassword);
+                           $user['email'] = 'callcocam@gmail.com';
+                           $user['password'] = $datePassword;
+                           $user['site'] = $this->company['name'];
+                           $this->mailer->sendMessage('/emails/forgot', $user, function($message) use($user) {
+                               $message->setTo($user['email']);
+                               $message->setSubject('Solicitação de recuperação de senha!');
+                           });
+                       endif;
+
+                   endif;
+
+               endif;
+
+               $this->Render->setVariable('form', $this->form);
+
+               $this->Render->setVariable('args', $args);
+
+               return parent::index($request, $response, $args);
+    }
+
+
+    public function profile(Request $request, Response $response, $args = [])
+    {
+
+        $this->form = $this->S_ParentSiteProfileForm;
+
+        $this->form->setData($this->user);
+
+        $this->Render->setVariable('form', $this->form);
+
+        $this->Render->setTemplate('auth/profile');
+
+        if ($this->Post->isPost()):
+
+            //$this->Render->setTerminal(true);
+
+            $this->form->setData($this->data);
+
+            if($this->form->isValid()):
+
+                if(isset($this->data['id']) && $this->data['id']):
+
+                    $Result = $this->model->update(null,$this->model->exchangeArray($this->data) ,$this->data['id'])->execute();
+                    if($Result):
+
+                        $this->Notify->success('Seus Dados Foram Atualizado Com Sucesso');
+
+                        $event = new AuthEvent($this->model->from(null, $this->data['id'])->find());
+
+                        $event->attach(new AuthHandler());
+
+                        $event->dispatch();
+
+                    else:
+
+                        $this->Notify->danger('Não foi possivel atualizar os seus dados');
+
+                    endif;
+                endif;
+            else:
+                $erros =$this->form->getErrors();
+
+                foreach ($erros as $erro):
+
+                    $this->Notify->danger($erro);
+
+                endforeach;
+            endif;
+
+        endif;
+
+        $this->Render->setVariable('args', $args);
+
+        return parent::index($request, $response, $args);
+
+    }
+
+    public function logout(Request $request, Response $response, $args = [])
+    {
+
+        $this->session->clear('user');
+
+        return $response->withRedirect($this->router->pathFor('S_route.auth.login'));
+    }
+
+}

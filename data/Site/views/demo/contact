@@ -1,0 +1,43 @@
+<?=$this->notify()?>
+
+<?=$this->crumb
+    ->bread('Dashboard', $this->url('admin'))
+    ->active('Entre Em Contato')->crumb();?>
+<?php
+$input = $this->input($form);
+
+$rowsContent  = $this->rows;
+
+$html[] = $input
+     ->setClass('col-md-6')
+     ->input('name')
+     ->input('email')
+     ->render($this->html('div'));
+$rowsContent->columns($html,12);
+
+$html = [];
+$html[] =$input
+    ->input('subject')
+    ->render($this->html('div'));
+$rowsContent->columns($html,12,'mt-3');
+$html = [];
+
+$html[] =$input
+    ->input('description')
+    ->render($this->html('div'));
+$rowsContent->columns($html,12,'mt-3');
+$html = [];
+
+$html[] = $input
+    ->actions('submit')
+    ->render();
+
+$rowsContent->columns($html,12,'mt-3');
+
+?>
+<?=$this->Content
+    ->header("Entre Em Contato")
+    ->body($this->form()->openTag($form))
+    ->body($rowsContent->row())
+    ->body($this->form()->closeTag())
+    ->content();

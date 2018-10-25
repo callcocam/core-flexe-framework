@@ -1,0 +1,34 @@
+<?=$this->alert()?>
+
+<?=$this->Crumb
+    ->bread('Dashboard', $this->url('admin'))
+    ->active('Recuperar Senha')->crumb();?>
+<?php
+$input = $this->input($form);
+$html[] = $input
+     ->input('email')
+    ->render($this->html('div'));
+
+$rowsContent  = $this->Rows;
+
+$rowsContent->columns($html,12);
+
+$html = [];
+
+$html[] = $input
+    ->actions('submit')
+    ->setQueryParams($queryParams)
+    ->back("S_route.auth.register",'Cadastre-se!!',['class'=>'btn btn-warning'])
+    ->back("S_route.auth.login",'Voltar Para O Login!!',['class'=>'btn btn-info'])
+    ->back("S_route",'Voltar Para O Inicio!!')
+    ->render();
+
+$rowsContent->columns($html,12,'mt-3');
+
+?>
+<?=$this->Content
+    ->header("iniciar Sessão")
+    ->body($this->form()->openTag($form))
+    ->body($rowsContent->row())
+    ->body($this->form()->closeTag())
+    ->content();

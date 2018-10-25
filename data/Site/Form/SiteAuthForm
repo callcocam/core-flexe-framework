@@ -1,0 +1,40 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+namespace S_App\S_Parent\Form;
+
+use Flexe\Form\AbstractForm;
+
+class SiteAuthForm extends AbstractForm
+{
+
+    public function __construct(string $name = "AjaxForm", $data = [])
+    {
+        parent::__construct($name, $data);
+
+        $this->setAttributes([
+            'class'=>'text-left form-validate',
+            'action'=>'S_route.auth.login',
+            'method'=>'post'
+        ]);
+
+        $this->add($this->setAttributesEmail([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->addEmail('email'));
+
+        $this->add($this->setAttributesPassword([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->addPassword());
+
+
+        $this->add($this->setAttributesSubmit([
+            "content"=>"Iniciar Sessão"
+        ])->addSubmit());
+
+    }
+}

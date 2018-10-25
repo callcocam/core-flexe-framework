@@ -1,0 +1,55 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+namespace S_App\S_Parent\Form;
+
+use S_App\S_Parent\Filter\SiteContactsFilter;
+use Flexe\Form\AbstractForm;
+
+class SiteContactsForm extends AbstractForm
+{
+
+    public function __construct(string $name = "AjaxForm", $data = [])
+    {
+        parent::__construct($name, $data);
+
+        $this->setAttributes([
+            'class'=>'text-left form-validate',
+            'id'=>$name,
+            'name'=>$name,
+            'action'=>'S_route.contacts',
+            'method'=>'post',
+            "enctype"=>"multipart/form-data",
+        ]);
+
+        $this->setValidation(new SiteContactsFilter());
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Digite Seu Nome')->addText('name'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Assunto')->addText('subject'));
+
+        $this->add($this->setAttributesEmail([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->addEmail('email'));
+
+        $this->add($this->setAttributesTextArea([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelTextArea('Detalhes')->addTextArea('description'));
+
+        $this->add($this->setAttributesSubmit([
+            "content"=>"Enviar Menssagem"
+        ])->addSubmit());
+
+    }
+}

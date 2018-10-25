@@ -1,0 +1,55 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+namespace S_App\S_Parent\Form;
+
+use S_App\S_Parent\Filter\ContactFilter;
+use Flexe\Form\Elements\Password;
+use Flexe\Form\Elements\Submit;
+use Flexe\Form\Elements\Text;
+use Flexe\Form\Form;
+
+class ContactForm extends Form
+{
+
+    public function __construct(string $name = "AjaxForm", array $data = [])
+    {
+        parent::__construct($name, $data);
+
+        $this->setAttributes([
+            'class'=>'text-left form-validate',
+            'action'=>'S_controller',
+            'method'=>'post'
+        ]);
+
+        $this->setValidation(new ContactFilter());
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Digite Seu Nome')->addText('name'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Assunto')->addText('subject'));
+
+        $this->add($this->setAttributesEmail([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->addEmail('email'));
+
+        $this->add($this->setAttributesTextArea([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelTextArea('Detalhes')->addTextArea('description'));
+
+        $this->add($this->setAttributesSubmit([
+            "content"=>"Enviar Menssagem"
+        ])->addSubmit());
+
+    }
+}

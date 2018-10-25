@@ -1,0 +1,52 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+namespace S_App\S_Parent\Form;
+
+
+use S_App\S_Parent\Filter\SiteRegisterFilter;
+use Flexe\Form\AbstractForm;
+
+class SiteRegisterForm extends AbstractForm
+{
+
+    public function __construct(string $name = "AjaxForm", $data = [])
+    {
+        parent::__construct($name, $data);
+
+        $this->setAttributes([
+            'class'=>'text-left form-validate',
+            'id'=>$name,
+            'name'=>$name,
+            'action'=>'S_route.auth.register',
+            'method'=>'post',
+            "enctype"=>"multipart/form-data",
+        ]);
+
+        $this->setValidation(new SiteRegisterFilter());
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Digite Seu Nome')->addText('name'));
+
+        $this->add($this->setAttributesEmail([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->addEmail('email'));
+
+        $this->add($this->setAttributesPassword([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->addPassword());
+
+
+        $this->add($this->setAttributesSubmit([
+            "content"=>"Finalizar Cadastro"
+        ])->addSubmit());
+    }
+
+}

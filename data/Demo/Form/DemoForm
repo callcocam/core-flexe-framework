@@ -1,0 +1,45 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Form;
+
+
+use Flexe\Form\AbstractForm;
+use S_App\S_Parent\Filter\S_DemoFilter;
+
+class S_DemoForm extends AbstractForm
+{
+
+    public function __construct($name="AjaxForm", $data = [])
+    {
+        parent::__construct($name, $data);
+
+        $this->setAttributes([
+            "name"=>$name,
+            "id"=>$name,
+            "role"=>"form",
+            "method"=>"post",
+            "enctype"=>"multipart/form-data",
+            "action"=>"S_route.S_controller.save"
+        ]);
+
+        $this->setValidation(new S_DemoFilter());
+
+        $this->add($this->setLabelText(translate('Nome\Descrição'))->addText('name'));
+
+
+        $this->add($this->setLabelStatus(translate('Status'))->addStatus("status"));
+
+        $this->add($this->setLabelDateTime(translate('Criado Em'))->addDateTime('created_at'));
+
+        $this->add($this->setLabelDateTime(translate('Atualizado Em'))->addDateTime());
+
+        $this->add($this->addSubmit());
+
+    }
+
+}

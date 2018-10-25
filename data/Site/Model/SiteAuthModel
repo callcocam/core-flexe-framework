@@ -1,0 +1,23 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Model;
+
+
+use Flexe\Model\AbstractModel;
+
+class SiteAuthModel extends AbstractModel
+{
+
+    protected $table = 'users';
+
+    protected $fillable = [
+         'company_id','name','email','cover','password','description','updated_at'
+    ];
+
+
+}

@@ -1,0 +1,92 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ */
+?>
+
+<?=$this->alert()?>
+
+<?=$this->crumb
+    ->bread('Dashboard', $this->url('admin'))
+    ->active('Manutenção Do Endereço')->crumb();?>
+<?php
+$input = $this->input($form);
+
+$html[] = $input
+    ->hidden('id')
+    ->setValue(date("d/m/Y H:i:s"))
+    ->hidden('updated_at')
+    ->hidden('company_id')
+    ->setValue($user['id'])
+    ->hidden('parent')
+    ->setValue('users')
+    ->hidden('assets')
+    ->input('name')
+    ->render($this->html('div'));
+
+$rowsContent  = $this->rows;
+
+$rowsContent->columns($html);
+
+$html = [];
+
+$html[] = $input
+    ->input('street')
+    ->render($this->html('div'));
+
+$rowsContent->columns($html);
+
+$html = [];
+
+$html[] = $input
+    ->setClass('col-4')
+    ->input('district')
+    ->setClass('col-5')
+    ->input('city')
+    ->setClass('col-3')
+    ->input('number')
+    ->render($this->html('div'));
+
+$rowsContent->columns($html);
+
+
+$html = [];
+
+$html[] = $input
+    ->setClass('col-6')
+    ->input('state')
+    ->input('country')
+    ->render($this->html('div'));
+
+$rowsContent->columns($html);
+
+
+$html = [];
+
+$html[] = $input
+    ->actions('submit')
+    ->setArgs($args)
+    ->setQueryParams($queryParams)
+    ->add('S_route.address.create','Adcionar Novo')
+    ->back('S_route.address','Voltar Para A Lista!!')
+    ->render($this->html('div'),'mt-2');
+
+$rowsContent->columns($html);
+
+$tabsContent  = $this->tabs;
+
+$callback = [];
+
+?>
+<?=$tabsContent
+    ->item("Voltar Para O Inicio",$this->url('S_route.auth.profile',$args))
+    ->setActive(true)
+    ->item("Endereços")
+    ->item("Documentos",$this->url('S_route.document',$callback))
+    ->item("Contatos",$this->url('S_route.contact',$callback))
+    ->item("Midial Social",$this->url('S_route.social',$callback))
+    ->body($this->form()->openTag($form,$args,$queryParams))
+    ->body($rowsContent->row())
+    ->body($this->form()->closeTag())
+    ->row();

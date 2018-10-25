@@ -1,0 +1,61 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ */
+?>
+
+<?=$this->alert()?>
+
+<?=$this->crumb
+    ->bread('Dashboard', $this->url('S_route'))
+    ->active('Editar Midia')->crumb();?>
+<?php
+$input = $this->input($form);
+$html[] = $input
+    ->hidden('id')
+    ->hidden('company_id')
+    ->hidden('status')
+    ->setValue($user['id'])
+    ->hidden('parent')
+    ->setValue('users')
+    ->hidden('assets')
+    ->setValue(date("d/m/Y H:i:s"))
+    ->hidden('updated_at')
+    ->setClass('col-md-4')
+    ->input('name')
+    ->input('user_unique_id')
+    ->input('icone')
+    ->render($this->html('div'));
+
+$rowsContent  = $this->rows;
+
+$rowsContent->columns($html);
+
+$callback = [];
+
+$html = [];
+
+$html[] = $input
+    ->actions('submit')
+    ->setArgs($args)
+    ->setQueryParams($queryParams)
+    ->add('S_route.social.create','Adcionar Novo')
+    ->back('S_route.social','Voltar Para A Lista!!')
+    ->render($this->html('div'),'mt-2');
+
+$rowsContent->columns($html);
+
+
+?>
+<?=$this->tabs
+    ->item("Voltar Para O Inicio",$this->url('S_route.auth.profile',$callback))
+    ->item("Endereços",$this->url('S_route.address',$callback))
+    ->item("Documentos",$this->url('S_route.document',$callback))
+    ->item("Contatos",$this->url('S_route.contact',$callback))
+    ->setActive(true)
+    ->item("Midial Social")
+    ->body($this->form()->openTag($form,$args,$queryParams))
+    ->body($rowsContent->row())
+    ->body($this->form()->closeTag())
+    ->row();

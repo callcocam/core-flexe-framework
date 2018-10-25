@@ -1,0 +1,196 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Controller;
+
+
+use Flexe\Http\Controller;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
+abstract class AbstractController extends Controller
+{
+
+
+    public function index(Request $request, Response $response, $args = [])
+    {
+        $this->Render->setTemplate(sprintf('auth/%s/index', $this->controller));
+
+        $this->data = $this->model->from()->where([
+
+            'parent'=>$this->user['id'],
+
+            'assets'=>'users',
+
+        ])->findAll();
+
+        $this->Render->setVariable('data', $this->data);
+
+        $this->Render->setVariable('args', $args);
+
+        return parent::index($request, $response, $args);
+
+    }
+
+
+    public function save(Request $request, Response $response, $args = [])
+    {
+        $this->form->setData($this->data);
+
+        if($this->form->isValid()):
+
+            if(isset($this->data['id']) && $this->data['id']):
+
+                $Result = $this->model->update(null,$this->model->exchangeArray($this->data) ,$this->data['id'])->execute();
+
+                if($Result):
+
+                    $this->Notify->success('Seus dados foram atualizado com sucesso');
+
+                else:
+
+                    $this->Notify->danger('Não foi possivel atualizar os seus dados');
+
+                endif;
+
+            else:
+
+                $Result = $this->model->insert(null,$this->model->exchangeArray($this->data))->execute();
+
+                if($Result):
+
+                    $this->Notify->success('Seus dados foram cadastardo com sucesso');
+
+                    $this->data['id'] = $Result;
+
+                else:
+
+                    $this->Notify->danger('Não foi possivel cadastardo os seus dados');
+
+                endif;
+
+            endif;
+
+        else:
+
+            $erros =$this->form->getErrors();
+
+            foreach ($erros as $erro):
+
+                $this->Notify->danger($erro);
+
+            endforeach;
+
+        endif;
+
+        if(isset($this->data['id']) && $this->data['id']):
+
+            return $this->redirect(sprintf('%s.%s.editar',$this->route, $this->controller),[
+
+                'id'=>base64_encode($this->data['id'])
+
+            ]);
+
+        endif;
+
+        return $this->redirect(sprintf('%s.%s.create',$this->route, $this->controller));
+
+    }
+
+    public function create(Request $request, Response $response, $args = [])
+    {
+        $this->Render->setTemplate(sprintf('auth/%s/create', $this->controller));
+
+        return parent::create($request, $response, $args);
+    }
+
+    public function editar(Request $request, Response $response, $args = [])
+    {
+
+        $this->Render->setTemplate(sprintf('auth/%s/editar', $this->controller));
+
+        if(!$args['id']):
+
+            $this->Alert->danger('message.error.id','Nenhum identificador valido foi passado!!!');
+
+            return $this->redirect('amboniclinicas.address');
+
+        endif;
+
+        $args['id'] = base64_decode($args['id']);
+
+        if(!$this->model):
+
+            $this->Alert->info('message.error.model','Nenhum model valido foi passado!!!');
+
+            return $this->redirect(sprintf('%s.%s', $this->route, $this->controller));
+
+        endif;
+
+        $this->data = $this->model->from(null,$args['id'])->find();
+
+        if(!$this->data):
+
+            $this->Alert->info(config('masseges.error.dada','Nenhum dado valido foi encontrado!!!'));
+
+            return $this->redirect(sprintf('%s.%s', $this->route, $this->controller));
+
+        endif;
+
+        $this->form->setData($this->data);
+
+        $this->Render->setVariable('args', $args);
+
+        $this->Render->setVariable('form', $this->form);
+
+        return $this->Render->render();
+    }
+
+    public function excluir(Request $request, Response $response, $args = [])
+    {
+        if($this->Post->isPost()):
+
+            $Model = $this->model->delete(null,base64_decode($this->data['id']));
+
+            $Result = $Model->execute();
+
+            if($Result):
+
+                $this->Alert->success(config('messages.delete.succes','Registro excluido com sucesso!!'));
+
+                return $this->redirect(sprintf('%s.%s', $this->route, $this->controller));
+
+            else:
+                if($Model->getError()):
+
+                    $this->Alert->info($Model->getError());
+
+                else:
+
+                    $this->Alert->info(config('messages.delete.succes','Não foi possivel finalizar a operação!!!'));
+
+                endif;
+
+            endif;
+
+        endif;
+
+        $this->Render->setVariable('action', $this->router->pathFor(sprintf('%s.%s.excluir', $this->route, $this->controller),[
+
+            'id'=>$args['id']
+
+        ]));
+
+        $this->Render->setVariable('callback', $this->router->pathFor(sprintf('%s.%s', $this->route, $this->controller)));
+
+        $this->Render->setVariable('args', $args);
+
+        $this->Render->setTemplate(sprintf('auth/%s/excluir', $this->controller));
+
+        return $this->Render->render();
+    }
+}

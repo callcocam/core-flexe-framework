@@ -1,0 +1,7 @@
+<?php $this->setPath(sprintf("%s/src/views/", dirname(__DIR__, 4)));?>
+<?=$this->partial("excluir",[
+        'args'=>$args,
+        'form'=>$form,
+        'callback'=>$callback,
+        'queryParams'=>$queryParams
+]);

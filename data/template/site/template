@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Siga Smart">
+    <link rel="icon" href="<?= assest('/default/img/favicon.ico')?>">
+    <title>S_Name - Demonstração</title>
+    <!-- Bootstrap core CSS -->
+    <link href="<?= assest('/default/css/bootstrap.min.css')?>" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="<?= assest('/default/css/album.css')?>" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="collapse bg-dark" id="navbarHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-7 py-4">
+                    <h4 class="text-white">Sobre</h4>
+                    <p class="text-muted"><?=$company['description']?></p>
+                </div>
+                <div class="col-sm-4 offset-md-1 py-4">
+                    <h4 class="text-white">Compartilhe</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Follow on Twitter</a></li>
+                        <li><a href="#" class="text-white">Like on Facebook</a></li>
+                        <li><a href="#" class="text-white">Google</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container d-flex justify-content-between">
+            S_menu
+            <?php if(isset($user) && $user):?>
+                <a href="<?=$this->url("S_route.auth.profile")?>" class="navbar-brand d-flex align-items-center"><strong>Meu Dados</strong></a>
+                <a href="<?=$this->url("S_route.auth.logout")?>" class="navbar-brand d-flex align-items-center"><strong>Sair</strong></a>
+            <?php else:?>
+                <a href="<?=$this->url("S_route.auth.login")?>" class="navbar-brand d-flex align-items-center"><strong>Login</strong></a>
+                <a href="<?=$this->url("S_route.auth.register")?>" class="navbar-brand d-flex align-items-center"><strong>Cadastre-se</strong></a>
+            <?php endif;?>
+             <a href="<?=$this->url("S_route.contacts")?>" class="navbar-brand d-flex align-items-center"><strong>Contato</strong></a>
+             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main role="main" class="container">
+
+    <?php
+    echo $this->content;
+    ?>
+
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <p class="float-right">
+            <a href="#">Back to top</a>
+        </p>
+        <span class="text-muted">Place sticky footer content here.</span>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="<?= assest('/default/js/jquery.js')?>"></script>
+<script src="<?= assest('/default/js/vendor/popper.min.js')?>"></script>
+<script src="<?= assest('/default/js/bootstrap.min.js')?>"></script>
+<script src="<?= assest('/default/js/vendor/holder.min.js')?>"></script>
+</body>
+</html>

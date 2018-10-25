@@ -1,0 +1,50 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+namespace S_App\S_Parent\Filter;
+
+
+use Flexe\Form\Filters\AbstractFilters;
+use Flexe\Validate\Rules\Required;
+use Flexe\Validate\Rules\ValidEmail;
+
+class RegisterFilter extends AbstractFilters
+{
+
+
+    public function __construct(array $data = [])
+    {
+
+        $this->add('name',[
+
+            Required::class=>[
+                self::VALUE=>true,
+                self::MSG=>'Campo %s e obrigatorio'
+            ]
+        ]);
+
+        $this->add('email',[
+
+            Required::class=>[
+                self::VALUE=>true,
+                self::MSG=>'Campo %s e obrigatorio'
+            ],
+            ValidEmail::class=>[
+                self::VALUE=>true,
+                self::MSG=>'Digite um email valido'
+            ]
+        ]);
+
+        $this->add('password',[
+
+            Required::class=>[
+                self::VALUE=>true,
+                self::MSG=>'Campo %s e obrigatorio'
+            ]
+        ]);
+
+    }
+}

@@ -1,0 +1,48 @@
+<?=$this->alert()?>
+
+<?=$this->Crumb
+    ->bread('Dashboard', $this->url('S_route'))
+    ->active('Cadastre-se')->crumb();?>
+<?php
+$input = $this->input($form);
+$rowsContent  = $this->Rows;
+
+$html[] = $input
+    ->hidden('id')
+    ->hidden('company_id')
+    ->input('name')
+    ->render($this->html('div'));
+$rowsContent->columns($html,12);
+
+$html = [];
+$html[] = $input
+    ->input('email')
+    ->render($this->html('div'));
+$rowsContent->columns($html,12);
+
+$html = [];
+$html = [];
+$html[] = $input
+    ->input('password')
+    ->render($this->html('div'));
+$rowsContent->columns($html,12);
+
+$html = [];
+
+$html[] = $input
+    ->actions('submit')
+    ->setQueryParams($queryParams)
+    ->back("S_route.auth.login",'Voltar Para O Login!!',['class'=>'btn btn-warning'])
+    ->back('S_route.auth.forgot','Esqueci minha senha!!',['class'=>'btn btn-info'])
+    ->back("S_route",'Voltar Para O Inicio!!')
+    ->render();
+
+$rowsContent->columns($html,12,'mt-3');
+
+?>
+<?=$this->Content
+    ->header("Cadastre-se")
+    ->body($this->form()->openTag($form))
+    ->body($rowsContent->row())
+    ->body($this->form()->closeTag())
+    ->content();

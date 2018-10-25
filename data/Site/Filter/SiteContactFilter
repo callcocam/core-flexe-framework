@@ -1,0 +1,15 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: caltj
+ * Date: 03/10/2018
+ * Time: 14:31
+ */
+
+namespace S_App\S_Parent\Filter;
+
+
+class SiteContactFilter extends \App\Admin\Filter\ContactFilter
+{
+
+}

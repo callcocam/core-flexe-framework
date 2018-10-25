@@ -1,0 +1,81 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+?>
+<?=$this->alert()?>
+<?=$this->crumb
+    ->bread('Dashboard', $this->url('S_route'))
+    ->active('Documentos Do Usuario')->crumb();?>
+
+<?php
+$callback = [];
+
+$div = $this->html('div')->setClass('card-deck mb-3 text-center');
+$html = [];
+
+if($data):
+
+    foreach ($data as $value):
+        $html[] = $this->html('div')->setClass('card mb-4 shadow-sm')->setText(
+            $this->html('div')->setClass('card-header')->setText(
+                $this->html('h4')->setClass('my-0 font-weight-normal')->setText(
+                    $value['name']
+                )
+            )
+        )->appendText(
+            $this->html('div')->setClass('card-body')->setText(
+                $this->html('ul')->setClass('list-unstyled mt-3 mb-4')->setText(
+                    $this->html('li')->setText(
+                        $value['document']
+                    )
+                )->appendText(
+                    $this->html('li')->setText(
+                        $value['icone']
+                    )
+                )->appendText(
+                    $this->html('a')->setAttributes([
+                        'class'=>'btn btn-sm btn-block btn-success',
+                        'href'=>$this->url('S_route.document.editar',[
+                            'id'=>base64_encode($value['id'])
+                        ])
+                    ])->setText(
+                        "Editar Documento"
+                    )
+                )->appendText(
+                    $this->html('a')->setAttributes([
+                        'class'=>'btn btn-sm btn-block btn-danger',
+                        'href'=>$this->url('S_route.document.excluir',[
+                            'id'=>base64_encode($value['id'])
+                        ])
+                    ])->setText(
+                        "Excluir Documento"
+                    )
+                )
+            )
+        );
+    endforeach;
+    $div->setText(implode("",$html));
+endif;
+?>
+
+<?=$this->tabs
+    ->item("Voltar Para O Inicio",$this->url('S_route.auth.profile',$callback))
+    ->item("Endereços",$this->url('S_route.address',$callback))
+    ->setActive(true)
+    ->item("Documentos")
+    ->item("Contatos",$this->url('S_route.contact',$callback))
+    ->item("Midial Social",$this->url('S_route.social',$callback))
+    ->body($div->setText(implode("",$html))) ->body($this->html('div')->setAttributes([
+        'class'=>'card-footer'
+    ])->setText(
+        $this->html('a')->setAttributes([
+            'class'=>'btn btn-sm btn-block btn-primary',
+            'href'=>$this->url('S_route.document.create')
+        ])->setText(
+            "Adicionar Documento"
+        )
+    ))
+    ->row();

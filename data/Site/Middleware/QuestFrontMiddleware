@@ -1,0 +1,35 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Middleware;
+
+
+use Flexe\Middleware;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
+class QuestFrontMiddleware extends Middleware
+{
+
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param $next
+     * @return mixed
+     */
+    public function __invoke(Request $request, Response $response, $next)
+    {
+
+        if($this->container->session->exists('user')):
+
+            return $response->withRedirect($this->container->router->pathFor('S_route'));
+
+        endif;
+
+        return $next($request, $response);
+    }
+}

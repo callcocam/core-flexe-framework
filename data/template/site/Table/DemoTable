@@ -1,0 +1,32 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Table;
+
+
+use Flexe\Table\AbstractTable;
+
+class S_DemoTable extends AbstractTable
+{
+
+    /**
+     * @var array Definition of headers
+     */
+    protected $headers = [
+       'S_tables'
+    ];
+
+    public function init()
+    {
+       // TODO: Implement init() method.
+    }
+
+    public function initFilter($query)
+    {
+        // TODO: Implement initFilter() method.
+    }
+}

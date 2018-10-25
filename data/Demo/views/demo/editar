@@ -1,0 +1,57 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ */
+?>
+
+<?='';//$this->notify()?>
+
+<?=$this->crumb
+->bread('Dashboard', $this->url('admin'))
+->active(translate('Dados Da S_Name'))->crumb();?>
+<?=$this->alert()?>
+<?php
+
+$input = $this->input($form);
+
+$rowsContent  = $this->rows;
+
+$rowsContent->columns($input
+    ->hidden('id')
+    ->hidden('company_id')
+    //->hidden('alias')
+    ->input('name')
+    ->render($this->html('div')))->row();
+
+
+$rowsContent->columns($input
+    ->input('status')
+    ->render($this->html('div')))->row();
+/**
+$rowsContent->columns($input
+    ->input('description')
+    ->render($this->html('div')))->row();
+*/
+$rowsContent->columns($input
+    ->setClass('col-6')
+    ->input('created_at')
+    ->input('updated_at')
+    ->render($this->html('div')))->row();
+
+$rowsContent->columns($input
+    ->actions('submit')
+    ->setArgs($args)
+    ->setQueryParams($queryParams)
+    ->add(sprintf('S_route.%s.create', $this->controller),translate('Adcionar Novo'))
+    ->back($this->url(sprintf('S_route.%s', $this->controller)),translate('Voltar Para A Lista!!'))
+    ->render())->row();
+
+?>
+<?=$this->tabs
+    ->setActive(true)
+    ->item(translate("Munutenção Do S_Name"))
+    ->body($this->form()->openTag($form))
+    ->body($rowsContent)
+    ->body($this->form()->closeTag())
+    ->row();

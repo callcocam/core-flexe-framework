@@ -1,0 +1,43 @@
+<?=$this->notify()?>
+
+<?=$this->html('div',"Extras\\Crumb")
+    ->bread('Dashboard', $this->url('admin'))
+    ->active('Dados Da Cidade')->crumb();?>
+<?php
+$input = $this->input($form);
+
+$html[] = $input
+     ->setClass('col-md-6')
+     ->input('name')
+     ->input('email')
+     ->render($this->html('div'));
+
+$rowsContent  = $this->html('div',"Extras\\Rows");
+
+$rowsContent->columns($html,12);
+
+$html = [];
+
+$html[] =$input
+    ->input('email')
+    ->render($this->html('div'));
+
+$rowsContent->columns($html,12,'mt-3');
+
+$html = [];
+
+$html[] = $input
+    ->actions('submit')
+    ->back($this->url('home.forgot'),'Esqueci minha senha!!',['class'=>'btn btn-warning'])
+    ->back($this->url('home'),'Voltar Para O Inicio!!')
+    ->render();
+
+$rowsContent->columns($html,12,'mt-3');
+
+?>
+<?=$this->html('div',"Extras\\Content")
+    ->header("iniciar Sessão")
+    ->body($this->form()->openTag($form->setAttribute('action', $this->url('S_controller.contact'))))
+    ->body($rowsContent->row())
+    ->body($this->form()->closeTag())
+    ->content();

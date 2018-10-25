@@ -1,0 +1,29 @@
+<?php
+/**
+  * Created by Claudio Campos.
+  * User: callcocam@gmail.com
+  * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\AbstractController;
+
+
+use Flexe\Http\Controller;
+
+use Slim\Container;
+
+class S_DemoController extends AbstractController
+{
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+
+        $this->model = $this->S_DemoModel;
+
+        $this->table = $this->S_DemoTable;
+
+        $this->form = $this->S_DemoForm;
+
+        $this->load();
+    }
+}

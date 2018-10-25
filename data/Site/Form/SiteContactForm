@@ -1,0 +1,60 @@
+<?php
+/**
+ * Created by Claudio Campos.
+ * User: callcocam@gmail.com
+ * https://www.sigasmart.com.br
+ */
+
+namespace S_App\S_Parent\Form;
+
+
+use Flexe\Form\AbstractForm;
+use S_App\S_Parent\Filter\SiteContactFilter;
+
+class SiteContactForm extends AbstractForm
+{
+
+    public function __construct($name="AjaxForm", $data = [])
+    {
+        parent::__construct($name, $data);
+
+        $this->setAttributes([
+            "name"=>$name,
+            "id"=>$name,
+            "role"=>"form",
+            "method"=>"post",
+            "enctype"=>"multipart/form-data",
+            "action"=>"S_route.contact.save"
+        ]);
+
+        $this->setValidation(new SiteContactFilter());
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Nome\Descrição')->addText('name'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Contato')->addText('contact'));
+
+        $this->add($this->setAttributesText([
+            'class'=>'form-control',
+            'position'=>'preppend'
+        ])->setLabelText('Icône')->addText('icone'));
+
+        $this->add($this->addHidden("parent"));
+
+        $this->add($this->addHidden("assets"));
+
+        $this->add($this->setValueHidden('1')->addHidden("status"));
+
+        $this->add($this->setValueHidden(date("d/m/Y H:i:s"))->addHidden("updated_at"));
+
+
+        $this->add($this->addSubmit());
+
+    }
+
+}

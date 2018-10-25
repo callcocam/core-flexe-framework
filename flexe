@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+if(!defined("__APP_PROJECT__")):
+
+    define("__APP_PROJECT__",'rpps/');
+
+endif;
+define('ROOT', __DIR__);
+
+require __DIR__.'/vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+
+
+$application->add(new Flexe\Commands\MakeGenerator(new \Flexe\Db\Init()));
+$application->add(new Flexe\Commands\SiteGenerator(new \Flexe\Db\Init()));
+$application->add(new Flexe\Commands\ControllerGenerator());
+$application->add(new Flexe\Commands\ModelGenerator(new \Flexe\Db\Init()));
+$application->add(new Flexe\Commands\TestGenerator(new \Flexe\Db\Init()));
+$application->add(new Flexe\Commands\FormGenerator());
+$application->add(new Flexe\Commands\RouteGenerator());
+$application->add(new Flexe\Commands\TableGenerator());
+$application->add(new Flexe\Commands\FilterGenerator());
+
+$application->run();
