@@ -47,13 +47,15 @@ class Alert extends AbstractHelper
 
         if($this->session->exists('message')):
 
-            $alert[] ='<div class="alert alert-%s alert-dismissible" role="alert">';
-            $alert[] ='        <strong>%s!</strong> %s.';
-            $alert[] ='            <button type="button" class="close" data-dismiss="alert" aria-label="Close">';
-            $alert[] ='            <span aria-hidden="true">&times;</span>';
-            $alert[] ='        </button>';
-            $alert[] ='    </div>';
-
+//            $alert[] ='<div class="alert alert-%s alert-dismissible" role="alert">';
+//            $alert[] ='        <strong>%s!</strong> %s.';
+//            $alert[] ='            <button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+//            $alert[] ='            <span aria-hidden="true">&times;</span>';
+//            $alert[] ='        </button>';
+//            $alert[] ='</div>';
+              $alert[] ='<div class="alert" data-type="%s" data-title="%s" style="display: none">';
+              $alert[] ='%s';
+              $alert[] ='</div>';
             $this->alert[] =sprintf(implode(PHP_EOL, $alert),$type,ucfirst($type),$this->session->get('message'));
 
 
